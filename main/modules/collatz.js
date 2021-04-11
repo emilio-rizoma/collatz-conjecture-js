@@ -6,9 +6,9 @@
 function Collatz() {
 	// A Tree with its Branches
 	this.tree = new Tree();
-
+	
 	// A branch to handle current event
-	this.branch = new Branch(new Colour(4.0, 2.0, 2.0));
+	this.branch = new Branch(new Colour(2.0, 1.0, 1.0));
 
 	/* Collatz Algorithm
     *
@@ -16,7 +16,6 @@ function Collatz() {
     *  value of n the sequence will always reach 1.
     *
     */
-
 	this.calc = (n) => {
 		if (n == undefined) {
 			return;
@@ -35,12 +34,12 @@ function Collatz() {
 		if (n % 2 == 0) {
 			return this.calc(n / 2);
 		} else {
-			return this.calc(3 * n + 1);
+			return this.calc((3 * n + 1) / 2);
 		}
 	}
 
 	// Resets the current branch
 	this.reset = () => {
-		this.branch = new Branch(new Colour(4.0, 2.0, 1.0));
+		this.branch = new Branch(new Colour(2.0, 1.0, 1.0));
 	}
 }

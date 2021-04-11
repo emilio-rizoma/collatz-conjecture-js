@@ -1,14 +1,16 @@
-/* Conjecture Class
+/* Conjecture Function
 *
-*  This class is used to translate the output of the
-*  Collatz Class to drawable content.
+*  This function is used to translate the output of the
+*  Collatz function to drawable content.
 *
 */
-
-function Conjecture(count, shape) {
+function Conjecture(count, angle, w, h) {
 	this.collatz = new Collatz();
 	this.count = count;
-	this.shape = shape;
+	this.angle = angle;
+	this.w = w;
+	this.h = h;
+
 	/* feed() Method
     *
     *  This method builds the Collatz Tree.
@@ -19,7 +21,7 @@ function Conjecture(count, shape) {
 			this.collatz.calc(this.count);
 			this.count--;
 		} while (this.count > 1);
-		console.log('Finished feeding Collatz Tree');
+		//console.log('Finished feeding Collatz Tree');
 	};
 
 	/* void run()
@@ -39,27 +41,28 @@ function Conjecture(count, shape) {
 			// Resets the drawing position to the initial value in order
 			// to draw each branch starting from here.
 			resetMatrix();
-			translate(600, 300);
+			translate(this.w, this.h);
 
 			// This loop iterate the current Branch arraylist.
 			for (let j = 0; j < branch.value.length; j++) {
-				// Gets the value of each Collatz iteration
-				val = map(branch.value[j], 1, range * 1 / 8, 0, 600);
-
 				// Gets the branch color.
 				c = branch.colour;
+
+				// Gets the value of each Collatz iteration
+				val = map(branch.value[j], 1, range / c.rand(12), 0, this.h);
 
 				// Changes the angle of the canvas.
 				// It uses the same Collatz Algorithm validation
 				// to determine what is the next rotation angle to draw.
 				if (val % 2 == 0) {
-					rotate(Math.PI / c.rand(shape));
+					rotate(Math.PI / c.rand(angle + 32));
 				} else {
-					rotate(-Math.PI / c.rand(shape));
+					rotate(-Math.PI / c.rand(angle));
 				}
-				
+
 				// Updates the color of the stroke and draw lines over the canvas.
-				stroke(c.r, c.g, c.b, 60);
+				strokeWeight(j / branch.seed * 2);
+				stroke(c.r, c.g, c.b, c.rand(200));
 
 				// It draws a line with the length of the current branch value
 				line(0, 0, 0, -val);
